@@ -2,13 +2,38 @@ var hindu = {};
 hindu.Constitution = function (option) {
 	var that = this
 		,	is_heatmap = false;
-	this.execute = function () {
-		$.getJSON("data/amendments.json",function (data) {
-			$.getJSON("data/data.json",function (data1) {
-				that.render(data,data1);
-			})
-		})
-	}
+
+var articlesData = [];
+var schedulesData = [];
+var articleOrder = [];
+
+this.execute = function () {
+
+    $.getJSON("data/articles.json", function (articles) {
+
+        articlesData = articles;
+        articleOrder = articles.map(a => String(a.article));
+
+        $.getJSON("data/schedules.json", function (schedules) {
+
+            schedulesData = schedules;
+
+            $.getJSON("data/amendments.json", function (data) {
+
+                $.getJSON("data/data.json", function (data1) {
+
+                    that.render(data, data1);
+
+                });
+
+            });
+
+        });
+
+    });
+
+}
+
 	var getParameterByName = function (name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -21,10 +46,14 @@ hindu.Constitution = function (option) {
 			var id = "#year_" + parseInt(years[0].substr(2,2)) + "_" + parseInt(years[1].substr(2,2))
 			$(id).trigger('click');
 		} else if(getParameterByName('article').length !== 0) {
-			var article = getParameterByName('article');
-			var id = "#article_" + article.toLowerCase();
-			$(id).trigger('click');
-		} else if(getParameterByName('schedule').length !== 0) {
+    var article = getParameterByName('article');
+    var id = "#article_" + article.toLowerCase();
+
+    $(id).trigger('click');
+    $("#detail").trigger("click");
+}
+		
+		else if(getParameterByName('schedule').length !== 0) {
 			
 			var schedule = getParameterByName('schedule').split('-');
 			var id = "#sched_" + schedule;
@@ -473,7 +502,60 @@ hindu.Constitution = function (option) {
 			}
 		}, true);
 
+document.addEventListener('keydown', function (e) {
 
+	console.log("Arrow handler", e.key);
+
+	
+    if ($(e.target).is("input, textarea"))
+        return;
+
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight")
+        return;
+
+    const current = getQueryParameter("article");
+	console.log("Current article:", getQueryParameter("article"));
+
+
+    if (!current)
+        return;
+
+    const index = articleOrder.indexOf(current);
+
+    if (index === -1)
+        return;
+
+    let nextIndex = index;
+
+    if (e.key === "ArrowRight" && index < articleOrder.length - 1)
+        nextIndex++;
+
+    if (e.key === "ArrowLeft" && index > 0)
+        nextIndex--;
+
+
+console.log("Index:", index);
+console.log("Next Index:", nextIndex);
+console.log("Next Article:", articleOrder[nextIndex]);
+
+
+    if (nextIndex === index)
+        return;
+
+
+
+const nextArticle = articleOrder[nextIndex];
+
+history.replaceState(
+    {},
+    "",
+    "?article=" + encodeURIComponent(nextArticle)
+);
+
+$("#article_" + nextArticle.toLowerCase()).trigger("click");
+$("#detail").trigger("click");
+
+}, true);
 
 		$('.article-list #schedules .box').on('click',function () {
 			$(".box").css({"background-color":"","color":""})
@@ -774,134 +856,130 @@ hindu.Constitution = function (option) {
 		})
 
 		// On click of the detail element
-        $('#detail').on('click', function () {
-							// Get the article number from the URL
-				let articleNumber = getQueryParameter('article');
-				let scheduleNumber = getQueryParameter('schedule');
+$('#detail').on('click', function () {
 
+    let articleNumber = getQueryParameter("article");
+    let scheduleNumber = getQueryParameter("schedule");
 
+    // ---------------- SCHEDULE ----------------
 
-					if (scheduleNumber) {
+    if (scheduleNumber) {
 
-				$.getJSON("data/schedules.json", function (data) {
-
-
-
-				let scheduleData = data.find(function(item){
-					return Number(item.schedule) === Number(scheduleNumber);
-				});
-
-					console.log("Matched:", scheduleData);
-
-							if (scheduleData) {
-
-								$('#coi_panel').empty();
-
-								$('#coi_panel').append(
-									'<h3><b>Schedule ' +
-									scheduleData.schedule +
-									'. ' +
-									scheduleData.title +
-									'</b></h3><br>'
-								);
-
-						scheduleData.description.forEach(function (line) {
-    $('#coi_panel').append('<p>' + line + '</p>');
-});
-
-const scheduleQuery = encodeURIComponent(
-    "Schedule " + scheduleData.schedule + " Constitution of India"
-);
-
-const scheduleCasesQuery = encodeURIComponent(
-    "Schedule " + scheduleData.schedule + " Constitution of India major cases"
-);
-
-$('#coi_panel').append(`
-    <div class="google-buttons" style="margin-top:25px;margin-bottom:15px;">
-        <a class="google-btn"
-           href="https://www.google.com/search?q=${scheduleQuery}"
-           target="_blank">
-            🔍 Search Schedule
-        </a>
-
-        <a class="google-btn"
-           href="https://www.google.com/search?q=${scheduleCasesQuery}"
-           target="_blank">
-            ⚖️ Search Cases
-        </a>
-    </div>
-`);
-
-$('#detail').removeClass('show_element');
-$('#left_side_bar').empty();
-$('#right_side_bar').empty();
-							}
-
-						});
-
-						return;
-					}
-
-					console.info(articleNumber);
-							
-							$.getJSON("data/articles.json", function (data) {
-								// Find the article based on the article number
-								let articleData = data.find(item => String(item.article) === articleNumber);
-								console.info(articleData);
-								if (articleData) {
-
-									$('#coi_panel').empty(); // Clear existing content
-							
-									$('#coi_panel').append(
-					'<h3><b>' +
-					articleData.article +
-					'. ' +
-					articleData.title +
-					'</b></h3>'
-				);
-
-				//   $('#coi_panel').append('<h3><b>' + articleData.article +". " +articleData.title + '</b></h3>');
-				//	$('#coi_panel').append('<br>');
-				articleData.description.forEach(function (line) {
-					$('#coi_panel').append('<p>' + line + '</p>');
-				});
-
-				const articleQuery = encodeURIComponent(
-					"Article " + articleData.article + " Constitution of India"
-				);
-
-				const casesQuery = encodeURIComponent(
-					"Article " + articleData.article + " major cases in Indian jurisprudence"
-				);
-
-				$('#coi_panel').append(`
-					<div class="google-buttons" style="margin-top:25px;margin-bottom:15px;">
-						<a class="google-btn"
-						href="https://www.google.com/search?q=${articleQuery}"
-						target="_blank">
-						🔍 Search Article
-						</a>
-
-						<a class="google-btn"
-						href="https://www.google.com/search?q=${casesQuery}"
-						target="_blank">
-						⚖️ Search Cases
-						</a>
-					</div>
-				`);
-
-                    // Clear the other div
-					$('#detail').removeClass('show_element');
-					$('#left_side_bar').empty();
-                    $('#right_side_bar').empty();
-					
-                } else {
-                    // If article not found, display an error message in #contentDiv
-                    $('#contentDiv').html('<p>The requested article could not be found.</p>');
-                }
-            });
+        let scheduleData = schedulesData.find(function (item) {
+            return Number(item.schedule) === Number(scheduleNumber);
         });
+
+        if (!scheduleData)
+            return;
+
+        $("#coi_panel").empty();
+
+        $("#coi_panel").append(
+            "<h3><b>Schedule " +
+            scheduleData.schedule +
+            ". " +
+            scheduleData.title +
+            "</b></h3><br>"
+        );
+
+        scheduleData.description.forEach(function (line) {
+            $("#coi_panel").append("<p>" + line + "</p>");
+        });
+
+        const scheduleQuery = encodeURIComponent(
+            "Schedule " + scheduleData.schedule + " Constitution of India"
+        );
+
+        const scheduleCasesQuery = encodeURIComponent(
+            "Schedule " + scheduleData.schedule + " Constitution of India major cases"
+        );
+
+        $("#coi_panel").append(`
+            <div class="google-buttons" style="margin-top:25px;margin-bottom:15px;">
+                <a class="google-btn"
+                   href="https://www.google.com/search?q=${scheduleQuery}"
+                   target="_blank">
+                   🔍 Search Schedule
+                </a>
+
+                <a class="google-btn"
+                   href="https://www.google.com/search?q=${scheduleCasesQuery}"
+                   target="_blank">
+                   ⚖️ Search Cases
+                </a>
+            </div>
+        `);
+
+        $("#detail").removeClass("show_element");
+        $("#left_side_bar").empty();
+        $("#right_side_bar").empty();
+
+        return;
+    }
+
+    // ---------------- ARTICLE ----------------
+
+    if (!articleNumber)
+        return;
+
+    let articleData = articlesData.find(function (item) {
+        return String(item.article) === articleNumber;
+    });
+
+    if (!articleData) {
+
+        $("#contentDiv").html(
+            "<p>The requested article could not be found.</p>"
+        );
+
+        return;
+    }
+
+    $("#coi_panel").empty();
+
+    $("#coi_panel").append(
+        "<h3><b>" +
+        articleData.article +
+        ". " +
+        articleData.title +
+        "</b></h3>"
+    );
+
+    articleData.description.forEach(function (line) {
+
+        $("#coi_panel").append("<p>" + line + "</p>");
+
+    });
+
+    const articleQuery = encodeURIComponent(
+        "Article " + articleData.article + " Constitution of India"
+    );
+
+    const casesQuery = encodeURIComponent(
+        "Article " + articleData.article + " major cases in Indian jurisprudence"
+    );
+
+    $("#coi_panel").append(`
+        <div class="google-buttons" style="margin-top:25px;margin-bottom:15px;">
+            <a class="google-btn"
+               href="https://www.google.com/search?q=${articleQuery}"
+               target="_blank">
+               🔍 Search Article
+            </a>
+
+            <a class="google-btn"
+               href="https://www.google.com/search?q=${casesQuery}"
+               target="_blank">
+               ⚖️ Search Cases
+            </a>
+        </div>
+    `);
+
+    $("#detail").removeClass("show_element");
+    $("#left_side_bar").empty();
+    $("#right_side_bar").empty();
+
+});
 
 function getQueryParameter(name) {
 	let urlParams = new URLSearchParams(window.location.search);
