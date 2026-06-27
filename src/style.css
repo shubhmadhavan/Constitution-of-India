@@ -1,0 +1,640 @@
+body {
+	width: 100%;
+	margin: 0 auto;
+	background-color: #fffffd;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("pattern_const.png") repeat;
+    opacity: 0.25; /* Adjust as needed */
+    pointer-events: none;
+    z-index: -1;
+
+}
+
+.search-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:9999;
+}
+
+.search-box{
+    width:700px;
+    max-width:90%;
+    max-height:80vh;
+    margin:80px auto;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+#articleSearch{
+    width:100%;
+    padding:18px;
+    border:none;
+    border-bottom:1px solid #ddd;
+    font-size:18px;
+    outline:none;
+}
+
+#searchResults{
+    max-height:65vh;
+    overflow-y:auto;
+}
+
+.search-item{
+    padding:14px 18px;
+    cursor:pointer;
+    border-bottom:1px solid #eee;
+}
+
+.search-item:hover,
+.search-item.active{
+	color: #000;
+    background:#e7d6ad;
+}
+
+.search-item small{
+    color:#777;
+}
+
+.google-buttons {
+	padding-left: 12vw;
+}
+
+.google-btn{
+    display:inline-block;
+    padding:4px 4px;
+    margin-right:8px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    text-decoration:none;
+    color:#312504;
+    
+	background:rgb(254, 252, 245);
+    font-size:11px;
+}
+
+.google-btn:hover{
+    background:#f8f8f8;
+}
+
+.col-sm-6.parts_of_constitution h3, .col-sm-6.parts_of_constitution p {
+	padding-left: 12vw !important;
+	padding-right: 0vw !important;
+}
+
+.col-sm-6.parts_of_constitution h3 {
+	font-size: 20px !important;
+}
+
+.col-sm-6.parts_of_constitution p {
+	font-size: 16px !important;
+}
+
+#selected_ammendments span  {
+	font-size:12px;
+	text-align:right;
+	  color: rgba(26, 22, 1, 0.6);
+	  margin-right:20px;margin-top:4px;
+	  font-style: italic;
+	    opacity: 0.5;
+}
+
+.title-header {
+	  display: flex;
+  align-items: center;
+  text-align: center;
+  color: rgba(26, 22, 1, 0.6);
+  font-size: 13px;
+  margin-top: 0.75rem;
+  opacity: 0.5;
+    transition: ease 0.4s opacity;
+		cursor: pointer;
+}
+
+
+.title-header:hover {
+	opacity: 1;
+}
+
+.title-header::before,
+.title-header::after {
+  content: "";
+  flex: 1;
+  height: 1.2px;
+  background: linear-gradient(to right, transparent, #59564b, transparent);
+opacity: 0.5;
+}
+
+
+.title-header:hover {
+  opacity: 0.8;
+}
+
+.col-xs-2 {
+	width: 20% !important;
+}
+
+.articles_container {
+	width: 78%;
+	margin: 0px 5px;
+	display: inline-block;
+}
+
+/* next two should add up to around  100% */
+
+.parts_of_constitution {
+	width: 87% !important; 
+}
+
+#right_side_bar {
+	width: 13% !important; 
+	padding-left: 0px !important;
+}
+
+.list_class {
+	font-size: 9.5px !important;
+}
+
+.part_highlight {
+	background-color: rgb(185, 171, 133) !important;
+	color: white !important;
+	cursor: default;
+}
+
+.part_names {
+	font-size: 11px;
+	color: #777;
+}
+
+.part_names:hover {
+	color: grey;
+}
+
+.part_name_bold {
+	font-weight: bold;
+	color:   rgb(120, 108, 76) !important;
+	text-decoration: underline;
+}
+
+.individual_box {
+	background-color: #76680f !important;
+	opacity: 1 !important;
+	color: white;
+	cursor: pointer;
+}
+
+.box.shade1:hover {
+	background-color: #76680f !important;
+}
+
+.select_effect {
+	background-color: #76680f !important;
+	color: white !important;
+	cursor: pointer;
+}
+
+.select_effect_hover {
+	background-color: #76680f !important;
+	color: white;
+	cursor: pointer;
+}
+
+
+
+#left_side_bar {
+	display: none;
+}
+
+.box {
+	border: 1px solid white;
+	float: left;
+	min-width: 40px;
+	text-align: center;
+	padding: 2px 12px;
+	font-size: 12.4px;
+	border-radius: 4px;
+	color: rgba(128, 128, 128, 0.5);
+}
+
+
+#articleQuickJump{
+    position:fixed;
+    left:50%;
+    bottom:24px;
+    transform:translateX(-50%);
+    background:#787458;
+    color:#fff;
+    padding:10px 18px;
+    border-radius:999px;
+    font:600 15px sans-serif;
+    z-index:100000;
+    display:none;
+    box-shadow:0 6px 18px rgba(85, 81, 59, 0.3);
+	opacity: 0.8;
+}
+
+
+#noty_bottomRight_layout_container {
+	display: none !important;
+}
+
+
+
+.row {
+display: none;	
+ margin-left: 13vw;
+}
+
+.heading {
+	font-size: 0.8em !important;
+}
+
+
+.list_of_amendments::-webkit-scrollbar {
+	width: 5px;
+}
+
+
+.list_of_amendments::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+}
+
+.list_of_amendments::-webkit-scrollbar-thumb {
+	background-color: darkgrey;
+	border-radius: 5px;
+}
+
+#selected_ammendments::-webkit-scrollbar {
+	width: 5px;
+}
+
+#selected_ammendments::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+}
+
+#selected_ammendments::-webkit-scrollbar-thumb {
+	background-color: darkgrey;
+	border-radius: 5px;
+}
+
+.reset_class {
+	color: white;
+	padding: 5px 11px;
+	border-radius: 4px;
+	background-color: rgb(169, 159, 114);
+	margin: 0px 0px 3px 56px;
+}
+
+.reset_class:hover {
+	background-color: rgb(107, 91, 24);
+	color: #eee;
+	border: 1px solid lightgrey
+}
+
+.detail_class {
+	color: white;
+	padding: 5px 11px;
+	border-radius: 4px;
+	background-color: rgb(169, 159, 114);
+	margin: 0px 0px 3px 56px;
+}
+
+.detail_class:hover {
+	background-color: rgb(150, 128, 26);
+	color: #eee;
+	border: 1px solid lightgrey
+}
+
+.article_coloring_legends {
+	float: right;
+	padding-left: 260px;
+	visibility: hidden;
+}
+
+.article_coloring_legends .box {
+	min-height: 12px;
+	min-width: 12px;
+}
+
+.article_coloring_legends div {
+	display: inline-block;
+}
+
+.article_coloring_legends div span {
+	display: inline-block;
+	margin-left: 1px;
+	margin-right: 3px;
+}
+
+.subheading_sub_text {
+	font-size: 11px;
+	color: #ccc;
+}
+
+.hint {
+	cursor: pointer;
+	font-size: 12px
+}
+
+#reset {
+	cursor: pointer;
+	font-size: 12px;
+	margin-top: -8px;
+	margin-bottom: 15px;
+	visibility: hidden;
+}
+
+#detail {
+	cursor: pointer;
+	font-size: 12px;
+	margin-top: -8px;
+	margin-bottom: 15px;
+	visibility: hidden;
+}
+
+.col-without-padding {
+	padding: 3px;
+}
+
+
+.articles_labels {
+	width: 103px;
+	display: inline-block;
+}
+
+#select_mode {
+	font-size: 12px;
+}
+
+.noty_type_error {
+	display: none !important;
+}
+
+
+
+/*.years_box:hover{background-color: #8D6E63; color:white;cursor: pointer;}*/
+
+
+
+
+.part_names_left {
+	text-align: right;
+}
+
+.show_element {
+	visibility: visible !important;
+}
+
+
+.select_yellow_effect {
+	background-color: #dfd792 !important;
+	color: white;
+}
+
+.select_green_effect {
+	background-color: #76c9b5 !important;
+	color: white;
+}
+
+.select_red_effect {
+	background-color: #c06c6c !important;
+	color: white;
+}
+
+.amendments {
+	text-align: right;
+}
+
+.list_class {
+	font-size: 11px;
+	padding: 5px 5px;
+	color: #777;
+}
+
+.list_group_class {
+	box-shadow: 3px 3px 3px lightgrey;
+}
+
+#selected_ammendments {
+	max-height: 300px;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+.list_of_amendments {
+	min-height: 300px;
+	max-height: 730px;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+.badge {
+	background-color: transparent;
+	color: #bbb;
+}
+
+/*.left.col-without-padding{margin-left:30px;}*/
+.list-group-item {
+	border: none;
+}
+
+.list-group-item .badge {
+	float: left;
+}
+
+.years_box {
+	border: 1px solid #ddd;
+	float: left;
+	text-align:
+		center;
+	padding: 1px 3px;
+	font-size: 11px;
+	border-radius: 4px;
+	color: #bbb;
+	margin-right: 5px;
+	background: transparent;
+}
+
+.years {
+	margin-right: 5px;
+	padding-top: 5px;
+	color: black;
+	font-size: 11px;
+}
+
+.years i {
+	color: #999;
+	font-size: 10px;
+	font-weight: 100;
+}
+
+.tenures {
+	margin-top: 5px;
+}
+
+.active {
+	background-color: #808397;
+	color: white;
+}
+
+.onhovereffect {
+	background-color: grey !important;
+	cursor: default !;
+}
+
+#schedules {
+	margin-top: 650px;
+	margin-left: 0px;
+}
+
+#schedules .box {
+	min-width: 24px;
+}
+
+#schedules_label {
+
+}
+
+#top_panel {
+	height: auto;
+	margin-bottom: 40px;
+	border-bottom: 2px solid #eee
+}
+
+
+#social_sharing {
+	text-align: right;
+}
+
+.list-hover,
+.list-select {
+	color: #674403;
+	font-size: 12px;
+	font-weight: 400 !important;
+	text-decoration: underline !important;
+}
+
+.heading {
+	color: gray;
+	font-weight: 200;
+	font-size: 1em;
+}
+
+.remove_heatmap_opacity {
+	opacity: 1;
+}
+
+/*.remove_party_wise_color{background-color:#EFEBE9;}*/
+.extra_space {
+	height: 30px;
+}
+
+
+.shade1 {
+	background-color: #fcfcf8;
+	color: #000;
+}
+
+.shade2 {
+	background-color: #f5f3e7;
+	color: #000;
+}
+
+.add_heatmap_color {
+	background-color: #b30000;
+}
+
+
+
+
+.viz_heading {
+	text-align: center;
+	font-size: 24px;
+	color: #1f57a5;
+	padding: 5px 0;
+	background: rgb(251, 250, 249);
+	box-shadow: 2px 2px 2px lightgrey;
+}
+
+/*.party_inc .box{background:#e57373;}
+.party_janta_party .box{background:#BA68C8;}
+.party_national_front .box{background:#7986CB;}
+.party_united_front .box{background:#7986CB;}
+.party_nda .box{background:#4DB6AC;}
+.party_upa .box{background:#AED581;}*/
+
+/*-------------------articals margins-----------*/
+/* PART POSITIONS */
+
+.deselect-text {
+	color: #C8C8C8;
+}
+
+/*------------------amendment list ---------------*/
+.summary {
+	display: none;
+	color: grey;
+	font-size: 10px;
+	padding-top: 5px;
+	margin: 2px 3px;
+	border-top: 2px solid #eee;
+}
+
+.list_class {
+	cursor: pointer;
+}
+
+a {
+	font-size: 9px;
+	font-style: italic;
+}
+
+.tenure {
+	cursor: pointer;
+}
+
+#dbutton {
+	cursor: pointer;
+}
+
+
+/*---------------- article bricks placemnet to be crooked --------------- */
+/*#article_31d{margin-left:10px;}
+#article_43a{margin-left:6px;}
+#article_77{margin-left:3px;}
+#article_96{margin-left:8px;}
+#article_111{margin-left:6px;}
+#article_134{margin-left:9px;}
+#article_158{margin-left:5px;}
+#article_186{margin-left:7px;}
+#article_213{margin-left:3px;}
+#article_238{margin-left:10px;}
+#article_243b{margin-left:5px;}
+#article_243v{margin-left:5px;}
+#article_243ze{margin-left:2px;}
+#article_264{margin-left:4px;}
+#article_291{margin-left:7px;}
+#article_304{margin-left:5px;}
+#article_354{margin-left:6px;}
+#article_364{margin-left:11px;}
+#article_377{margin-left:50px;}
+#article_14 {
+	margin-left: 6px;
+}
+*/
+
+#article_5 , #article_12, #article_36, #article_51a, #article_52, #article_152, #article_238, #article_239, #article_243,
+#article_243p, #article_245, #article_264, #article_301, #article_308, #article_323a, #article_324, #article_330, #article_343, #article_244, #article_352, #article_361, #article_368, #article_369, #article_393
+{
+	clear: both;
+}
