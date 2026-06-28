@@ -1,5 +1,5 @@
-var hindu = {};
-hindu.Constitution = function (option) {
+var news = {};
+news.Constitution = function (option) {
 	var that = this
 		,	is_heatmap = false;
 
@@ -20,7 +20,7 @@ this.execute = function () {
 
             $.getJSON("data/amendments.json", function (data) {
 
-                $.getJSON("data/data.json", function (data1) {
+                $.getJSON("data/amendments_data.json", function (data1) {
 
                     that.render(data, data1);
 
@@ -40,6 +40,32 @@ this.execute = function () {
 		    results = regex.exec(location.search);
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	};
+
+const articleToPart = {};
+
+$("#parts_div .part").each(function () {
+
+    const partId = this.id;
+
+    const heading = $(".part_names." + partId)
+        .text()
+        .trim()
+        .replace(/\s*\([^)]*\)\s*$/, "");
+
+    $(this).find(".box").each(function () {
+
+        articleToPart[
+            this.id.replace("article_", "").toUpperCase()
+        ] = heading;
+
+    });
+
+});
+
+// Make it accessible everywhere
+window.articleToPart = articleToPart;
+
+
 	var fetchUrl = function () {
 		if(getParameterByName('year').length !== 0) {
 			var years = getParameterByName('year').split('-');
@@ -874,6 +900,8 @@ $('#detail').on('click', function () {
 
         $("#coi_panel").empty();
 
+
+
         $("#coi_panel").append(
             "<h3><b>Schedule " +
             scheduleData.schedule +
@@ -935,8 +963,15 @@ $('#detail').on('click', function () {
         return;
     }
 
-    $("#coi_panel").empty();
+$("#coi_panel").empty(); 
 
+const partHeading = articleToPart[String(articleData.article).toUpperCase()];
+
+if (partHeading) {
+    $("#coi_panel").append(`<h5>Part ${partHeading}</h5>`);
+}
+
+	
     $("#coi_panel").append(
         "<h3><b>" +
         articleData.article +
@@ -985,6 +1020,8 @@ function getQueryParameter(name) {
 	let urlParams = new URLSearchParams(window.location.search);
 	return urlParams.get(name);
 }
+
+
 
 
 }

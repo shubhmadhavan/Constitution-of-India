@@ -85,9 +85,15 @@ body::before {
     background:#f8f8f8;
 }
 
+.col-sm-6.parts_of_constitution h5,
 .col-sm-6.parts_of_constitution h3, .col-sm-6.parts_of_constitution p {
 	padding-left: 12vw !important;
 	padding-right: 0vw !important;
+}
+
+.col-sm-6.parts_of_constitution h5 {
+	margin-bottom: -6px !important;
+	opacity: 0.7;
 }
 
 .col-sm-6.parts_of_constitution h3 {
@@ -213,14 +219,14 @@ opacity: 0.5;
 	display: none;
 }
 
-.box {
+.box {  /* CELL SIZE */
 	border: 1px solid white;
 	float: left;
 	min-width: 40px;
 	text-align: center;
-	padding: 2px 12px;
-	font-size: 12.4px;
-	border-radius: 4px;
+	padding: 2px 6px;
+	font-size: 11px;
+	border-radius: 5px;
 	color: rgba(128, 128, 128, 0.5);
 }
 
