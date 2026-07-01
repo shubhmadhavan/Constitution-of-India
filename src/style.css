@@ -145,12 +145,14 @@ opacity: 0.5;
 }
 
 .col-xs-2 {
-	width: 20% !important;
+
+	width: 14% !important;
+	padding-top: 27px !important;
 }
 
 .articles_container {
-	width: 77.4%;
-	margin: 0px 5px;
+	width: 80.4%;
+	margin: 0px 4px;
 	display: inline-block;
 }
 
@@ -178,6 +180,7 @@ opacity: 0.5;
 .part_names {
 	font-size: 11px;
 	color: #777;
+	opacity: 0.7;
 }
 
 .part_names:hover {
@@ -185,8 +188,8 @@ opacity: 0.5;
 }
 
 .part_name_bold {
-	font-weight: bold;
-	color:   rgb(120, 108, 76) !important;
+	color:   rgb(85, 77, 53) !important;
+	opacity: 1 !important;
 	text-decoration: underline;
 }
 
@@ -224,7 +227,7 @@ opacity: 0.5;
 	float: left;
 	min-width: 40px;
 	text-align: center;
-	padding: 2px 6px;
+	padding: 2px 4px;
 	font-size: 11px;
 	border-radius: 5px;
 	color: rgba(128, 128, 128, 0.5);
@@ -438,6 +441,7 @@ display: none;
 }
 
 .list_of_amendments {
+	padding-top: 27px;
 	min-height: 300px;
 	max-height: 730px;
 	overflow: hidden;
@@ -613,34 +617,41 @@ a {
 	cursor: pointer;
 }
 
-
-/*---------------- article bricks placemnet to be crooked --------------- */
-/*#article_31d{margin-left:10px;}
-#article_43a{margin-left:6px;}
-#article_77{margin-left:3px;}
-#article_96{margin-left:8px;}
-#article_111{margin-left:6px;}
-#article_134{margin-left:9px;}
-#article_158{margin-left:5px;}
-#article_186{margin-left:7px;}
-#article_213{margin-left:3px;}
-#article_238{margin-left:10px;}
-#article_243b{margin-left:5px;}
-#article_243v{margin-left:5px;}
-#article_243ze{margin-left:2px;}
-#article_264{margin-left:4px;}
-#article_291{margin-left:7px;}
-#article_304{margin-left:5px;}
-#article_354{margin-left:6px;}
-#article_364{margin-left:11px;}
-#article_377{margin-left:50px;}
-#article_14 {
-	margin-left: 6px;
-}
-*/
-
+#article_1,
 #article_5 , #article_12, #article_36, #article_51a, #article_52, #article_152, #article_238, #article_239, #article_243,
 #article_243p, #article_245, #article_264, #article_301, #article_308, #article_323a, #article_324, #article_330, #article_343, #article_244, #article_352, #article_361, #article_368, #article_369, #article_393
 {
 	clear: both;
+}
+
+/* ===========================
+   Mobile Responsive Fix
+   =========================== */
+
+@media (max-width: 768px) {
+
+
+.col-xs-2 {
+
+display: none !important;
+width: 1% !important;
+padding-top: 0px !important;
+}
+
+.articles_container {
+	width: 93.4%;
+	margin: 0px 4px;
+	display: inline-block;
+}
+
+.parts_of_constitution {
+	width: 70% !important; 
+}
+
+#right_side_bar {
+	width: 30% !important; 
+	padding-left: 0px !important;
+}
+
+
 }
