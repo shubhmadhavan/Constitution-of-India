@@ -126,7 +126,8 @@ const by={};D.arts.forEach(a=>(by[a[2]]=by[a[2]]||[]).push(a));
 let h=`<section class="part" id="part-pre"><div class="pl"><strong>Preamble</strong></div><div class="arts"><button class="a pre" data-a="0">Preamble</button></div></section>`;
 for(const p of D.parts){const l=by[p.r]||[];h+=`<section class="part" id="part-${p.r}"><button class="pl" data-p="${p.r}"><strong>Part ${p.r}</strong><small>${esc(p.t)}</small></button><div class="arts">${l.map(a=>`<button class="a" data-a="${esc(a[0])}" title="${esc(a[1])}">${a[0]}</button>`).join('')}</div></section>`}
 $('#ix').innerHTML=h;
-$('#foot').textContent=`${D.arts.length-1} articles in ${D.parts.length} parts and ${D.sch.length} schedules. Text and amendment records come from the supplied data files.`;
+$('#foot').textContent=`Made by Shubh Madhavan`;
+
 let raf=0;
 function smoothTo(y,sm){cancelAnimationFrame(raf);const s=window.scrollY||document.documentElement.scrollTop||0,d=y-s;if(!sm||Math.abs(d)<2){window.scrollTo(0,y);return}
  const dur=Math.min(1100,Math.max(500,Math.abs(d)*.4)),t0=performance.now(),ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,evs=['wheel','touchstart','keydown'];
