@@ -9,6 +9,36 @@ let searchIndex = [];
     let selectedIndex = 0;
     let debounce;
 
+    function openSearch(prefill) {
+
+        $("#searchModal").show();
+        $("body").addClass("search-open");
+
+        $("#searchResults").empty();
+        currentResults = [];
+
+        $("#articleSearch")
+            .val(prefill || "")
+            .trigger("focus");
+
+        if (prefill)
+            $("#articleSearch").trigger("input");
+
+    }
+
+    function closeSearch() {
+
+        $("#searchModal").hide();
+        $("body").removeClass("search-open");
+        $("#articleSearch").trigger("blur");
+
+    }
+
+    // used by the mobile bottom bar (mobile.js)
+    window.openArticleSearch = openSearch;
+    window.closeArticleSearch = closeSearch;
+
+
     // Load once
 $.getJSON("data/articles.json", function (data) {
 
@@ -27,65 +57,6 @@ $.getJSON("data/articles.json", function (data) {
     }));
 
 });
-
-    $("<style>")
-        .prop("type", "text/css")
-        .html(`
-#searchModal{
-display:none;
-position:fixed;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.45);
-z-index:99999;
-}
-
-.search-box{
-width:700px;
-max-width:90%;
-max-height:80vh;
-margin:70px auto;
-background:white;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 8px 30px rgba(0,0,0,.25);
-}
-
-#articleSearch{
-width:100%;
-padding:18px;
-border:none;
-border-bottom:1px solid #ddd;
-font-size:18px;
-outline:none;
-box-sizing:border-box;
-}
-
-#searchResults{
-max-height:65vh;
-overflow-y:auto;
-}
-
-.search-item{
-padding:14px 18px;
-cursor:pointer;
-border-bottom:1px solid #eee;
-}
-
-.search-item:hover,
-.search-item.active{
-background:#eaf2ff;
-}
-
-.search-item small{
-display:block;
-margin-top:4px;
-color:#666;
-}
-`)
-        .appendTo("head");
 
 
 const SEARCH_ALIASES = {
@@ -302,7 +273,7 @@ currentResults = searchIndex
             "?article=" + encodeURIComponent(article.article)
         );
 
-        $("#searchModal").hide();
+        closeSearch();
 
         $("#detail").trigger("click");
 
@@ -318,15 +289,7 @@ currentResults = searchIndex
 
             e.preventDefault();
 
-            $("#searchModal").show();
-
-            $("#articleSearch")
-                .val("")
-                .focus();
-
-            $("#searchResults").empty();
-
-            currentResults = [];
+            openSearch();
 
         }
 
@@ -390,7 +353,7 @@ currentResults = searchIndex
 
         if (e.key === "Escape") {
 
-            $("#searchModal").hide();
+            closeSearch();
 
         }
 
@@ -414,7 +377,7 @@ currentResults = searchIndex
     $("#searchModal").click(function (e) {
 
         if (e.target === this)
-            $(this).hide();
+            closeSearch();
 
     });
 let articleBuffer = "";

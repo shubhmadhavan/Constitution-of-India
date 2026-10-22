@@ -528,6 +528,12 @@ window.articleToPart = articleToPart;
 			}
 		}, true);
 
+if (window.matchMedia('(max-width: 767px)').matches) {
+    window.addEventListener('popstate', function () {
+        window.location.reload();
+    });
+}
+		
 document.addEventListener('keydown', function (e) {
 
 	console.log("Arrow handler", e.key);
@@ -572,7 +578,7 @@ console.log("Next Article:", articleOrder[nextIndex]);
 
 const nextArticle = articleOrder[nextIndex];
 
-history.replaceState(
+history.pushState(
     {},
     "",
     "?article=" + encodeURIComponent(nextArticle)
